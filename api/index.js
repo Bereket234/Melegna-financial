@@ -21,18 +21,6 @@ app.use(cors());
 app.use(express.json());
 app.use(morgan("dev"));
 
-app.get("/health", (req, res) => {
-  res.json({ status: "ok" });
-});
-
-app.use("/api/auth", authRoutes);
-app.use("/api/categories", categoryRoutes);
-app.use("/api/units", unitRoutes);
-app.use("/api/items", itemRoutes);
-app.use("/api/purchases", purchaseRoutes);
-app.use("/api/reports", reportRoutes);
-app.use("/api/balance", balanceRoutes);
-
 // Initialize database connection (cached for serverless)
 let connectionPromise = null;
 
@@ -56,5 +44,17 @@ app.use(async (req, res, next) => {
     res.status(500).json({ message: "Database connection failed" });
   }
 });
+
+app.get("/health", (req, res) => {
+  res.json({ status: "ok" });
+});
+
+app.use("/api/auth", authRoutes);
+app.use("/api/categories", categoryRoutes);
+app.use("/api/units", unitRoutes);
+app.use("/api/items", itemRoutes);
+app.use("/api/purchases", purchaseRoutes);
+app.use("/api/reports", reportRoutes);
+app.use("/api/balance", balanceRoutes);
 
 export default app;

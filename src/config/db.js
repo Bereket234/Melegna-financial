@@ -4,8 +4,14 @@ dotenv.config();
 let cachedConnection = null;
 
 export async function connectToDatabase() {
-  const uri =
-    process.env.MONGODB_URI
+  if (cachedConnection) {
+    return cachedConnection;
+  }
+  const uri = process.env.MONGODB_URI;
+  if (!uri) {
+    throw new Error("MONGODB_URI environment variable is not defined");
+  }
+  
   try {
     const connection = await mongoose.connect(uri);
     cachedConnection = connection;
@@ -13,6 +19,6 @@ export async function connectToDatabase() {
     return connection;
   } catch (error) {
     console.error("MongoDB connection error:", error);
-    process.exit(1);
+    throw error;
   }
 }
