@@ -42,7 +42,7 @@ async function ensureDatabaseConnection() {
       connectionPromise = null; // Reset on error to allow retry
       throw error;
     });
-  }
+  } 
   return connectionPromise;
 }
 
